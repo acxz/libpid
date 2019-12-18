@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cmath> // std::abs
+#include <cmath>  // std::abs
 
 namespace pid {
 
@@ -22,8 +22,9 @@ template <class T>
 pidController<T>::~pidController() {}
 
 template <class T>
-T pidController<T>::computeControl(T desired_state, T actual_state, T curr_time) {
-    T error = - (desired_state - actual_state);
+T pidController<T>::computeControl(T desired_state, T actual_state,
+                                   T curr_time) {
+    T error = -(desired_state - actual_state);
 
     // If error is too small, don't compute control
     if (std::abs(error) < error_margin_) {
@@ -41,7 +42,6 @@ T pidController<T>::computeControl(T desired_state, T actual_state, T curr_time)
         T control = kp_ * error;
         return control;
     }
-
 
     total_error_ = total_error_ + error * (curr_time - prev_time_);
 

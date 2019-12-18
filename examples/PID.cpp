@@ -3,14 +3,11 @@
  * \example PID.cpp
  */
 
-// Are these includes clean? maybe just include pid.h?
 #include <libpid/pid.h>
-#include <libpid/pid-impl.h>
 
 #include <iostream>
 
 int main(int argc, char** argv) {
-
     // Create a PID controller object
     double kp = 1;
     double ki = 0;
@@ -18,7 +15,8 @@ int main(int argc, char** argv) {
     double max_integral_error = 0;
     double error_margin = 0;
 
-    pid::pidController<double> testPID(kp, ki, kd, max_integral_error, error_margin);
+    pid::pidController<double> testPID(kp, ki, kd, max_integral_error,
+                                       error_margin);
 
     // Test pid functionality
     double control_one = testPID.computeControl(0, 50, 0);
@@ -26,5 +24,4 @@ int main(int argc, char** argv) {
 
     std::cout << control_one << std::endl;
     std::cout << control_two << std::endl;
-
 }

@@ -27,3 +27,5 @@ class pidController {
 };
 
 }  // namespace pid
+
+#include <libpid/pid-impl.h>
