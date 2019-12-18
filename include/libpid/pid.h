@@ -6,13 +6,13 @@ template <class T>
 class pidController {
    public:
     //! constructor
-    pidController(T kp, T ki, T kd, T, max_integral_error, T error_margin);
+    pidController(T kp, T ki, T kd, T max_integral_error, T error_margin);
 
     //! destructor
     ~pidController();
 
     //! compute a control signal
-    computeControl(T desired_state, T actual_state, T curr_time);
+    T computeControl(T desired_state, T actual_state, T curr_time);
 
    private:
     T kp_;
@@ -24,6 +24,6 @@ class pidController {
     T prev_error_;
     T prev_time_;
     bool first_measurement_;
-}
+};
 
 }  // namespace pid

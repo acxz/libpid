@@ -1,42 +1,47 @@
 #pragma once
 
+#include <cmath> // std::abs
+
 namespace pid {
 
 template <class T>
-pidController<TODO>::pidController(T kp, T ki, T kd, T max_integral_error,
-                                   T error_margin) {
-    T kp_ = kp;
-    T ki_ = ki;
-    T kd_ = kd;
-    T max_integral_error_ = max_integral_error;
-    T error_margin_ = error_margin;
-    T total_error_ = 0;
-    T prev_error_ = 0;
-    T prev_time_ = 0;
-    bool first_measurement_ = True;
+pidController<T>::pidController(T kp, T ki, T kd, T max_integral_error,
+                                T error_margin) {
+    kp_ = kp;
+    ki_ = ki;
+    kd_ = kd;
+    max_integral_error_ = max_integral_error;
+    error_margin_ = error_margin;
+    total_error_ = 0;
+    prev_error_ = 0;
+    prev_time_ = 0;
+    first_measurement_ = true;
 }
 
 template <class T>
-pidController<TODO>::~pidController() {}
+pidController<T>::~pidController() {}
 
 template <class T>
-pidController<TODO>::computeControl(T desired_state, T actual_state,
-                                    T curr_time) {
-    T error = -(desired_state - actual_state);
+T pidController<T>::computeControl(T desired_state, T actual_state, T curr_time) {
+    T error = - (desired_state - actual_state);
 
+    // If error is too small, don't compute control
+    if (std::abs(error) < error_margin_) {
+        return 0;
+    }
+
+    // TODO do we apply integral control for the first timestep?
     // If first measurement then disregard control terms based on previous
     // timestep
     if (first_measurement_) {
-        first_measurement_ = False;
+        first_measurement_ = false;
         prev_error_ = error;
         prev_time_ = curr_time;
-        return 0;
+
+        T control = kp_ * error;
+        return control;
     }
 
-    // If error is too small, don't compute control
-    if (abs(error) < error_margin_) {
-        return 0;
-    }
 
     total_error_ = total_error_ + error * (curr_time - prev_time_);
 
